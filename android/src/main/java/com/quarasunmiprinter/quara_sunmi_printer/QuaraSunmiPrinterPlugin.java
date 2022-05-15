@@ -2,6 +2,8 @@ package com.quarasunmiprinter.quara_sunmi_printer;
 
 import androidx.annotation.NonNull;
 
+import com.quarasunmiprinter.quara_sunmi_printer.utils.SunmiPrintHelper;
+
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -23,16 +25,17 @@ public class QuaraSunmiPrinterPlugin implements FlutterPlugin, MethodCallHandler
   }
 
   @Override
-  public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-//    if (call.method.equals("getPlatformVersion")) {
-//      result.success("Android " + android.os.Build.VERSION.RELEASE);
-//    } else {
-//      result.notImplemented();
-//    }
-//
+  public void onMethodCall(@NonNull MethodCall call, @NonNull Result result, @NonNull FlutterPluginBinding flutterPluginBinding) {
+
     switch (call.method){
       case "getPlatformVersion":
         result.success("Android " + android.os.Build.VERSION.RELEASE);
+        break;
+
+      case "BIND_PRINTER_SERVICE":
+      SunmiPrintHelper.getInstance().initSunmiPrinterService(flutterPluginBinding.getApplicationContext());
+      result.success(true);
+
         break;
       default:
         result.notImplemented();
