@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:quara_sunmi_printer/enums.dart';
 import 'package:quara_sunmi_printer/quara_sunmi_printer.dart';
 
 void main() {
@@ -17,17 +18,23 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
-  bool _isInitPrinter = false;
+  String _printerStatus = 'Unknown';
+  String _printerSerialNumber = 'Unknown';
+  String _printerDeviceModel = 'Unknown';
+  String _printerVersion = 'Unknown';
 
   @override
   void initState() {
     super.initState();
     initPlatformState();
-    initSunmi();
+    getPrinterStatus();
   }
 
-  Future<void> initSunmi() async {
-    _isInitPrinter = (await QuaraSunmiPrinter.bindingPrinter())!;
+  Future<void> getPrinterStatus() async {
+    _printerStatus = await QuaraSunmiPrinter.getPrinterPaperSize();
+    _printerSerialNumber = await QuaraSunmiPrinter.getPrinterSerialNumber();
+    _printerDeviceModel = await QuaraSunmiPrinter.getDeviceModel();
+    _printerVersion = await QuaraSunmiPrinter.getPrinterVersion();
     setState(() {});
   }
 
@@ -57,14 +64,37 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: Text('Plugin example app $_printerStatus'),
         ),
         body: Center(
           child: Column(
             children: [
               Text('Running on: $_platformVersion\n'),
-              // ElevatedButton(onPressed: (){}, child: ),
-              Text(_isInitPrinter.toString()),
+              ElevatedButton(onPressed: () async {}, child: const Icon(Icons.print)),
+              Text(_printerStatus.toString()),
+              Text(_printerVersion.toString()),
+              Text(_printerDeviceModel.toString()),
+              Text(_printerSerialNumber.toString()),
+              const SizedBox(
+                height: 10,
+              ),
+              ElevatedButton(onPressed: () async => await QuaraSunmiPrinter.cutPaper(), child: const Text('Cut paper')),
+              const SizedBox(
+                height: 10,
+              ),
+              ElevatedButton(
+                  onPressed: () async => await QuaraSunmiPrinter.feedPaper(), child: const Text('Feed paper')),
+              ElevatedButton(
+                  onPressed: () async {
+                    await QuaraSunmiPrinter.setAlign(sunmiPrintAlign: SunmiPrintAlign.CENTER);
+                    await QuaraSunmiPrinter.printText(
+                        text: 'hi from flutter', fontSize: 20, isBold: true, isUnderLine: false);
+
+                    await QuaraSunmiPrinter.printText(
+                        text: 'hi from flutter', fontSize: 13, isBold: false, isUnderLine: false);
+                    await QuaraSunmiPrinter.setAlign(sunmiPrintAlign: SunmiPrintAlign.RIGHT);
+                  },
+                  child: const Text('Print text')),
             ],
           ),
         ),

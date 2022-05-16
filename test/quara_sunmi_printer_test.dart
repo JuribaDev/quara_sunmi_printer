@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:quara_sunmi_printer/quara_sunmi_printer.dart';
+
+import '../lib/quara_sunmi_printer.dart';
 
 void main() {
   const MethodChannel channel = MethodChannel('quara_sunmi_printer');

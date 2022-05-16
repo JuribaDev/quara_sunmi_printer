@@ -2,11 +2,9 @@ package com.quarasunmiprinter.quara_sunmi_printer.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.RemoteException;
 import android.widget.Toast;
 
-import com.quarasunmiprinter.quara_sunmi_printer.R;
 import com.sunmi.peripheral.printer.ExceptionConst;
 import com.sunmi.peripheral.printer.InnerLcdCallback;
 import com.sunmi.peripheral.printer.InnerPrinterCallback;
@@ -33,6 +31,7 @@ public class SunmiPrintHelper {
     public static int CheckSunmiPrinter = 0x00000001;
     public static int FoundSunmiPrinter = 0x00000002;
     public static int LostSunmiPrinter = 0x00000003;
+
 
     /**
      *  sunmiPrinter means checking the printer connection status
@@ -70,10 +69,12 @@ public class SunmiPrintHelper {
      */
     public void initSunmiPrinterService(Context context){
         try {
-            boolean ret =  InnerPrinterManager.getInstance().bindService(context,
-                    innerPrinterCallback);
-            if(!ret){
+            boolean ret =  InnerPrinterManager.getInstance().bindService(context, innerPrinterCallback);
+            System.out.println("ret");
+
+            if (!ret) {
                 sunmiPrinter = NoSunmiPrinter;
+                System.out.println("no ret");
             }
         } catch (InnerPrinterException e) {
             e.printStackTrace();
@@ -85,7 +86,7 @@ public class SunmiPrintHelper {
      */
     public void deInitSunmiPrinterService(Context context){
         try {
-            if(sunmiPrinterService != null){
+            if (sunmiPrinterService != null) {
                 InnerPrinterManager.getInstance().unBindService(context, innerPrinterCallback);
                 sunmiPrinterService = null;
                 sunmiPrinter = LostSunmiPrinter;
@@ -99,14 +100,17 @@ public class SunmiPrintHelper {
      * Check the printer connection,
      * like some devices do not have a printer but need to be connected to the cash drawer through a print service
      */
-    private void checkSunmiPrinterService(SunmiPrinterService service){
+    private void checkSunmiPrinterService(SunmiPrinterService service) {
+
         boolean ret = false;
         try {
             ret = InnerPrinterManager.getInstance().hasPrinter(service);
+
         } catch (InnerPrinterException e) {
             e.printStackTrace();
         }
-        sunmiPrinter = ret?FoundSunmiPrinter:NoSunmiPrinter;
+        sunmiPrinter = ret ? FoundSunmiPrinter : NoSunmiPrinter;
+
     }
 
     /**
@@ -137,7 +141,7 @@ public class SunmiPrintHelper {
     /**
      *  Printer cuts paper and throws exception on machines without a cutter
      */
-    public void cutpaper(){
+    public void cutPaper(){
         if(sunmiPrinterService == null){
             //TODO Service disconnection processing
             return;
@@ -235,7 +239,7 @@ public class SunmiPrintHelper {
      */
     public String getPrinterPaper(){
         if(sunmiPrinterService == null){
-            //TODO Service disconnection processing
+            //TODO Service disconnection processingz
             return "";
         }
         try {
@@ -476,7 +480,7 @@ public class SunmiPrintHelper {
 
         try {
             sunmiPrinterService.enterPrinterBuffer(true);
-            printExample(context);
+            printExample();
             sunmiPrinterService.exitPrinterBufferWithCallback(true, callbcak);
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -596,8 +600,9 @@ public class SunmiPrintHelper {
     /**
      *  Sample print receipt
      */
-    public void printExample(Context context){
+    public void printExample(){
         if(sunmiPrinterService == null){
+            System.out.println("null");
             //TODO Service disconnection processing
             return ;
         }
@@ -607,9 +612,9 @@ public class SunmiPrintHelper {
             sunmiPrinterService.printerInit(null);
             sunmiPrinterService.setAlignment(1, null);
             sunmiPrinterService.printText("测试样张\n", null);
-            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.sunmi);
-            sunmiPrinterService.printBitmap(bitmap, null);
-            sunmiPrinterService.lineWrap(1, null);
+//            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.sunmi);
+//            sunmiPrinterService.printBitmap(bitmap, null);
+//            sunmiPrinterService.lineWrap(1, null);
             sunmiPrinterService.setAlignment(0, null);
             try {
                 sunmiPrinterService.setPrinterStyle(WoyouConsts.SET_LINE_SPACING, 0);
@@ -680,10 +685,10 @@ public class SunmiPrintHelper {
      * Used to report the real-time query status of the printer, which can be used before each
      * printing
      */
-    public void showPrinterStatus(Context context){
+    public String showPrinterStatus(Context context){
         if(sunmiPrinterService == null){
             //TODO Service disconnection processing
-            return ;
+            return "" ;
         }
         String result = "Interface is too low to implement interface";
         try {
@@ -725,7 +730,9 @@ public class SunmiPrintHelper {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+
         Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+        return result;
     }
 
     /**

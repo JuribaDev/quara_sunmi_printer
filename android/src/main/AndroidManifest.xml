@@ -2,4 +2,8 @@
   package="com.quarasunmiprinter.quara_sunmi_printer">
 
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
+    <queries>
+        <package android:name="woyou.aidlservice.jiuiv5"/>
+    </queries>
 </manifest>
