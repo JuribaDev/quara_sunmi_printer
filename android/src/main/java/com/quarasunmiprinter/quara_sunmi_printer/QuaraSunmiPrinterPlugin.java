@@ -5,6 +5,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.quarasunmiprinter.quara_sunmi_printer.utils.SunmiPrintHelper;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
@@ -47,6 +54,11 @@ public class QuaraSunmiPrinterPlugin implements FlutterPlugin, MethodCallHandler
         result.success(SunmiPrintHelper.getInstance().getPrinterPaper());
         break;
 
+        case "INIT_PRINTER":
+          SunmiPrintHelper.getInstance().initPrinter();
+        result.success(true);
+        break;
+
         case "GET_PRINTER_SERIAL_NUMBER":
         result.success(SunmiPrintHelper.getInstance().getPrinterSerialNo());
         break;
@@ -61,21 +73,39 @@ public class QuaraSunmiPrinterPlugin implements FlutterPlugin, MethodCallHandler
 
         case "CUT_PAPER":
         SunmiPrintHelper.getInstance().cutPaper();
+          result.success(true);
         break;
 
         case "FEED_PAPER":
         SunmiPrintHelper.getInstance().feedPaper();
-
+          result.success(true);
         break;
 
         case "SET_ALIGN":
-        SunmiPrintHelper.getInstance().setAlign(call.argument("align"));
-          Toast.makeText(context, call.argument("align"), Toast.LENGTH_SHORT).show();
+          int align = call.argument("align");
+          SunmiPrintHelper.getInstance().setAlign(align);
+
+          result.success(true);
+        break;
+
+        case "PRINT_QRCODE":
+          String data = call.argument("qrcode");
+          int moduleSize = call.argument("moduleSize");
+          int errorLevelCorrection = call.argument("errorLevelCorrection");
+          SunmiPrintHelper.getInstance().printQr(data,moduleSize,errorLevelCorrection);
+
           result.success(true);
         break;
         case "PRINT_TEXT":
-        SunmiPrintHelper.getInstance().printText(call.argument("text"),call.argument("fontSize"),call.argument("align"),call.argument("isBold"),call.argument("isUnderLine"));
+          String text = call.argument("text");
+          int fontSize = call.argument("fontSize");
+          int textAlign = call.argument("align");
+          boolean isBold = call.argument("isBold");
+          boolean isUnderLine = call.argument("isUnderLine");
+          SunmiPrintHelper.getInstance().setAlign(textAlign);
+          SunmiPrintHelper.getInstance().printText(text,fontSize,isBold,isUnderLine,null);
 
+          result.success(true);
         break;
 
 

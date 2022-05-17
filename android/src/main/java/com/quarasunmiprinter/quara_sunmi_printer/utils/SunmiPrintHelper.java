@@ -377,14 +377,14 @@ public class SunmiPrintHelper {
     /**
      * print Qr Code
      */
-    public void printQr(String data, int modulesize, int errorlevel) {
+    public void printQr(String data, int moduleSize, int errorLevel) {
         if(sunmiPrinterService == null){
             //TODO Service disconnection processing
             return;
         }
 
         try {
-            sunmiPrinterService.printQRCode(data, modulesize, errorlevel, null);
+            sunmiPrinterService.printQRCode(data, moduleSize, errorLevel, null);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -688,7 +688,7 @@ public class SunmiPrintHelper {
     public String showPrinterStatus(Context context){
         if(sunmiPrinterService == null){
             //TODO Service disconnection processing
-            return "" ;
+            return "Sunmi printer is null";
         }
         String result = "Interface is too low to implement interface";
         try {

@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> getPrinterStatus() async {
-    _printerStatus = await QuaraSunmiPrinter.getPrinterPaperSize();
+    _printerStatus = await QuaraSunmiPrinter.getPrinterStatus();
     _printerSerialNumber = await QuaraSunmiPrinter.getPrinterSerialNumber();
     _printerDeviceModel = await QuaraSunmiPrinter.getDeviceModel();
     _printerVersion = await QuaraSunmiPrinter.getPrinterVersion();
@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Plugin example app $_printerStatus'),
+          title: const Text('Plugin example app'),
         ),
         body: Center(
           child: Column(
@@ -86,13 +86,26 @@ class _MyAppState extends State<MyApp> {
                   onPressed: () async => await QuaraSunmiPrinter.feedPaper(), child: const Text('Feed paper')),
               ElevatedButton(
                   onPressed: () async {
-                    await QuaraSunmiPrinter.setAlign(sunmiPrintAlign: SunmiPrintAlign.CENTER);
                     await QuaraSunmiPrinter.printText(
-                        text: 'hi from flutter', fontSize: 20, isBold: true, isUnderLine: false);
-
+                        text: 'hi from flutter',
+                        sunmiPrintAlign: SunmiPrintAlign.LEFT,
+                        fontSize: 30,
+                        isBold: true,
+                        isUnderLine: false);
+                    await QuaraSunmiPrinter.printEmptyLine();
+                    await QuaraSunmiPrinter.printQrcode(
+                        qrCode:
+                            ';ajsdf;kjasjkfd;ajsd;flkjaslkdfjlkasjdflkajsdfkljhaskdghaksjdgfklasjdflkajsdklfjalksdjasdkjfljflasjdflkasjdlfjalsdjflaksjdflkajsdflkjasdflkjasdlfkjasldkfjlaskdjflkasjdflkjasflkjasd',
+                        moduleSize: 5,
+                        errorLevelCorrection: 1);
+                    await QuaraSunmiPrinter.printEmptyLine();
                     await QuaraSunmiPrinter.printText(
-                        text: 'hi from flutter', fontSize: 13, isBold: false, isUnderLine: false);
-                    await QuaraSunmiPrinter.setAlign(sunmiPrintAlign: SunmiPrintAlign.RIGHT);
+                        text: 'hi from flutter',
+                        sunmiPrintAlign: SunmiPrintAlign.CENTER,
+                        fontSize: 30,
+                        isBold: false,
+                        isUnderLine: true);
+                    await QuaraSunmiPrinter.feedPaper();
                   },
                   child: const Text('Print text')),
             ],

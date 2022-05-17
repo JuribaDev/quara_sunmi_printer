@@ -51,7 +51,7 @@ class QuaraSunmiPrinter {
   ///
   ///This method will give you the status of the printer.
   static Future<String> getPrinterStatus() async {
-    final String status = await _channel.invokeMethod('SHOW_PRINTER_STATUS');
+    String status = await _channel.invokeMethod('SHOW_PRINTER_STATUS');
 
     return status;
   }
@@ -61,18 +61,50 @@ class QuaraSunmiPrinter {
   ///This method will cut the paper and throws exception on machines without a cutter.
   static Future<void> cutPaper() async => await _channel.invokeMethod('CUT_PAPER');
 
+  ///*printEmptyLine*
+  ///
+  ///This method will print a empty line in your printer
+  static Future<void> printEmptyLine() async {
+    Map<String, dynamic> arguments = <String, dynamic>{
+      "text": ' \n',
+      "fontSize": 20,
+      "isBold": false,
+      "isUnderLine": false,
+      "align": 1,
+    };
+    await _channel.invokeMethod("PRINT_TEXT", arguments);
+  }
+
   ///*printText*
   ///
   ///This method will print a simple text in your printer
   static Future<void> printText(
-      {required String text, required int fontSize, required bool isBold, required bool isUnderLine}) async {
+      {required String text,
+      required SunmiPrintAlign sunmiPrintAlign,
+      required int fontSize,
+      required bool isBold,
+      required bool isUnderLine}) async {
+    int align = 1;
+    switch (sunmiPrintAlign) {
+      case SunmiPrintAlign.LEFT:
+        align = 0;
+        break;
+      case SunmiPrintAlign.CENTER:
+        align = 1;
+        break;
+      case SunmiPrintAlign.RIGHT:
+        align = 2;
+        break;
+    }
     Map<String, dynamic> arguments = <String, dynamic>{
       "text": '$text\n',
       "fontSize": fontSize,
       "isBold": isBold,
-      "isUnderLine": isUnderLine
+      "isUnderLine": isUnderLine,
+      "align": align,
     };
     await _channel.invokeMethod("PRINT_TEXT", arguments);
+    // await initPrinter();
   }
 
   ///*setAlign*
@@ -93,7 +125,7 @@ class QuaraSunmiPrinter {
         break;
     }
     Map<String, dynamic> arguments = <String, dynamic>{
-      "align": 1,
+      "align": align,
     };
     await _channel.invokeMethod("SET_ALIGN", arguments);
   }
@@ -103,5 +135,31 @@ class QuaraSunmiPrinter {
   ///This method will print a simple empty line.
   static Future<void> feedPaper() async {
     await _channel.invokeMethod("FEED_PAPER");
+  }
+
+  ///*print qrcode*
+  ///
+  ///This method will print qrcode.
+  /// 'moduleSize': the size of QR code block start from 4 to 16 the higher moduleSize the bigger QR code block
+  /// 'errorLevelCorrection': QR code error correction level start from 0 to 3.
+  /// 0: error correction level L (7%).
+  /// 1: error correction level M (15%).
+  /// 2: error correction level Q (25%).
+  /// 3: error correction level H (30%).
+  static Future<void> printQrcode(
+      {required String qrCode, required int moduleSize, required int errorLevelCorrection}) async {
+    Map<String, dynamic> arguments = <String, dynamic>{
+      "qrcode": qrCode,
+      "moduleSize": moduleSize,
+      "errorLevelCorrection": errorLevelCorrection,
+    };
+    await _channel.invokeMethod("PRINT_QRCODE", arguments);
+  }
+
+  ///*initPrinter*
+  ///
+  ///This method will reset styles.
+  static Future<void> initPrinter() async {
+    await _channel.invokeMethod("INIT_PRINTER");
   }
 }

@@ -1,15 +1,4 @@
 # quara_sunmi_printer
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
+sunmi docs
+https://file.cdn.sunmi.com/SUNMIDOCS/%E5%95%86%E7%B1%B3%E5%86%85%E7%BD%AE%E6%89%93%E5%8D%B0%E6%9C%BA%E5%BC%80%E5%8F%91%E8%80%85%E6%96%87%E6%A1%A3EN-0224.pdf
