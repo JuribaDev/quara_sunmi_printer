@@ -96,6 +96,11 @@ public class QuaraSunmiPrinterPlugin implements FlutterPlugin, MethodCallHandler
 
           result.success(true);
         break;
+        case "OPEN_CASH_DRAWER":
+
+          SunmiPrintHelper.getInstance().openCashBox();
+          result.success(true);
+        break;
         case "PRINT_TEXT":
           String text = call.argument("text");
           int fontSize = call.argument("fontSize");

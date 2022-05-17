@@ -139,6 +139,13 @@ class QuaraSunmiPrinter {
     await _channel.invokeMethod("FEED_PAPER");
   }
 
+  ///*open cash drawer*
+  ///
+  ///This method will open cash drawer.
+  static Future<void> openCashDrawer() async {
+    await _channel.invokeMethod("OPEN_CASH_DRAWER");
+  }
+
   ///*print qrcode*
   ///
   ///This method will print qrcode.

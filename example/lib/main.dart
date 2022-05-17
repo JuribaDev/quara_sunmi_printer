@@ -106,6 +106,7 @@ class _MyAppState extends State<MyApp> {
                         isBold: false,
                         isUnderLine: true);
                     await QuaraSunmiPrinter.feedPaper();
+                    await QuaraSunmiPrinter.openCashDrawer();
                   },
                   child: const Text('Print text')),
             ],
