@@ -88,7 +88,7 @@ class _MyAppState extends State<MyApp> {
                   onPressed: () async {
                     await QuaraSunmiPrinter.printText(
                         text: 'hi from flutter',
-                        sunmiPrintAlign: SunmiPrintAlign.LEFT,
+                        quaraSunmiPrintAlign: QuaraSunmiPrintAlign.LEFT,
                         fontSize: 30,
                         isBold: true,
                         isUnderLine: false);
@@ -101,7 +101,7 @@ class _MyAppState extends State<MyApp> {
                     await QuaraSunmiPrinter.printEmptyLine();
                     await QuaraSunmiPrinter.printText(
                         text: 'hi from flutter',
-                        sunmiPrintAlign: SunmiPrintAlign.CENTER,
+                        quaraSunmiPrintAlign: QuaraSunmiPrintAlign.CENTER,
                         fontSize: 30,
                         isBold: false,
                         isUnderLine: true);

@@ -7,7 +7,7 @@ import 'enums.dart';
 
 class SunmiStyle {
   SunmiFontSize? fontSize;
-  SunmiPrintAlign? align;
+  QuaraSunmiPrintAlign? align;
   bool? bold;
 
   SunmiStyle({this.fontSize, this.align, this.bold});

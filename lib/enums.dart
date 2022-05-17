@@ -35,7 +35,7 @@ enum PrinterMode {
 ///*SunmiPrintAlign*
 ///
 ///Enum to set printer aligntment
-enum SunmiPrintAlign {
+enum QuaraSunmiPrintAlign {
   LEFT,
   CENTER,
   RIGHT,

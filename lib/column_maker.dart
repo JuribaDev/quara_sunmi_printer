@@ -11,23 +11,23 @@ import 'enums.dart';
 class ColumnMaker {
   String text;
   int width;
-  SunmiPrintAlign align;
+  QuaraSunmiPrintAlign align;
   ColumnMaker({
     this.text = '',
     this.width = 2,
-    this.align = SunmiPrintAlign.LEFT,
+    this.align = QuaraSunmiPrintAlign.LEFT,
   });
   //Convert to json
   Map<String, String> toJson() {
     int value = 0;
     switch (align) {
-      case SunmiPrintAlign.LEFT:
+      case QuaraSunmiPrintAlign.LEFT:
         value = 0;
         break;
-      case SunmiPrintAlign.CENTER:
+      case QuaraSunmiPrintAlign.CENTER:
         value = 1;
         break;
-      case SunmiPrintAlign.RIGHT:
+      case QuaraSunmiPrintAlign.RIGHT:
         value = 2;
         break;
       default:

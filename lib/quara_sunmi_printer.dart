@@ -15,6 +15,7 @@ class QuaraSunmiPrinter {
   ///*getPrinterPaperSize*
   ///
   ///This method will get the printer paper size
+  ///example "58mm":"80mm"
   static Future<String> getPrinterPaperSize() async {
     final String printerPaperSize = await _channel.invokeMethod('GET_PRINTER_PAPER_SIZE');
     return printerPaperSize;
@@ -78,21 +79,22 @@ class QuaraSunmiPrinter {
   ///*printText*
   ///
   ///This method will print a simple text in your printer
-  static Future<void> printText(
-      {required String text,
-      required SunmiPrintAlign sunmiPrintAlign,
-      required int fontSize,
-      required bool isBold,
-      required bool isUnderLine}) async {
+  static Future<void> printText({
+    required String text,
+    required QuaraSunmiPrintAlign quaraSunmiPrintAlign,
+    required int fontSize,
+    bool isBold = false,
+    bool isUnderLine = false,
+  }) async {
     int align = 1;
-    switch (sunmiPrintAlign) {
-      case SunmiPrintAlign.LEFT:
+    switch (quaraSunmiPrintAlign) {
+      case QuaraSunmiPrintAlign.LEFT:
         align = 0;
         break;
-      case SunmiPrintAlign.CENTER:
+      case QuaraSunmiPrintAlign.CENTER:
         align = 1;
         break;
-      case SunmiPrintAlign.RIGHT:
+      case QuaraSunmiPrintAlign.RIGHT:
         align = 2;
         break;
     }
@@ -110,17 +112,17 @@ class QuaraSunmiPrinter {
   ///*setAlign*
   ///
   static Future<void> setAlign({
-    required SunmiPrintAlign sunmiPrintAlign,
+    required QuaraSunmiPrintAlign quaraSunmiPrintAlign,
   }) async {
     int align = 1;
-    switch (sunmiPrintAlign) {
-      case SunmiPrintAlign.LEFT:
+    switch (quaraSunmiPrintAlign) {
+      case QuaraSunmiPrintAlign.LEFT:
         align = 0;
         break;
-      case SunmiPrintAlign.CENTER:
+      case QuaraSunmiPrintAlign.CENTER:
         align = 1;
         break;
-      case SunmiPrintAlign.RIGHT:
+      case QuaraSunmiPrintAlign.RIGHT:
         align = 2;
         break;
     }
