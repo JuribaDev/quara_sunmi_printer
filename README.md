@@ -2,6 +2,8 @@
 
 
 Introduction
+
+
 SUNMI devices come with an inbuilt thermal printer, complete with a buffer, which allows applications to directly print thermal receipts via SDK.
 
 The following SUNMI devices equipped with a printer include:
